@@ -1,0 +1,208 @@
+
+<div>
+  <div class="col">
+    <div class="col-sm-12 btn btn-primary">
+      Welcome to DashBoard
+    </div>
+  </div>
+  <div class="col">
+    <!-- if width not set on every column then its manage by self
+    if set width on each and every column then and then use locked column functionality -->
+  <!-- if you want to hide some column then use : hidden="true" -->
+
+    <kendo-grid [kendoGridBinding]="gridData" [filterable]="true" [groupable]="true" [sortable]="true" [pageSize]="10"
+      [pageable]="true" [reorderable]="true"
+      (filterChange)="filterChange($event)"
+       [height]="490">
+      <ng-template kendoGridToolbarTemplate>
+        <button type="button" kendoGridExcelCommand icon="file-excel"  >Export to Excel</button>
+        <button kendoGridPDFCommand icon="file-pdf">Export to PDF</button>
+      </ng-template>
+      
+      <kendo-grid-column field="UserId" title="User Id" [locked]="true"  width="150">
+      </kendo-grid-column>
+      <kendo-grid-column field="Profile" title="Profile Picture"  width="130" class="text-center" filter="none">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <img [src]="dataItem.Profile" height="50" width="50" class="img-responsive">
+          </ng-template>
+        </kendo-grid-column>
+      <kendo-grid-column field="Email" title="Email"  width="200">
+      </kendo-grid-column>
+      <kendo-grid-column field="Gender" title="Gender"  width="150">
+            </kendo-grid-column>
+      <kendo-grid-column field="Dob" title="Date Of Birth" filter="date" format="{0:d}" width="250">
+      </kendo-grid-column>
+      <kendo-grid-column field="ContactNo" title="Mobile No."  width="250">
+      </kendo-grid-column>
+      <kendo-grid-column field="Skills" title="Skills"  width="200">
+      </kendo-grid-column>
+      <kendo-grid-column field="Address" title="Address"  width="200">
+      </kendo-grid-column>
+      <kendo-grid-column field="City" title="City"  width="200">
+      </kendo-grid-column>
+      <kendo-grid-column field="IsApporved" title="Is Active"   width="100">
+          <ng-template kendoGridFilterCellTemplate>
+              <kendo-switch
+                  (valueChange)="switchChange($event)"
+                  offLabel="No"
+                  [checked]="checked"
+                  onLabel="Yes">
+              </kendo-switch>
+          </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <kendo-switch [checked]="dataItem.IsApporved"></kendo-switch>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-command-column title="Action" width="220">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <button class="btn btn-info mr-2" (click)="ShowUpdateModalPopup([dataItem])">Update</button>
+              <button class="btn btn-danger" (click)="openConfirmationDialog(dataItem.UserId)">Delete</button>
+          </ng-template>
+      </kendo-grid-command-column>
+
+      <kendo-grid-excel fileName="SampleDemo_Excel.xlsx"></kendo-grid-excel>
+      <kendo-grid-pdf fileName="SampleDemo_PDF.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [landscape]="true">
+          <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+          <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+           <div class="page-template">
+              <div class="header">
+                <div style="float: right">Page {{ pageNum }} of {{ totalPages }}</div>
+                Multi-page grid with automatic page breaking
+              </div>
+              <div class="footer">
+                Page {{ pageNum }} of {{ totalPages }}
+              </div>
+            </div>
+          </ng-template>
+      </kendo-grid-pdf>
+    </kendo-grid>
+    
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="UserModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Update User</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+         <form [formGroup]="UserForm" (ngSubmit)="onFormSubmit(UserForm.value)">
+        <div class="modal-body" *ngFor="let user of _UserList">
+            <p>{{user.Dob | date:'MM/dd/yyyy'}}</p>
+            <input type="hidden" formControlName="UserId" class="form-control" value="{{user.UserId}}"/>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" formControlName="Email" class="form-control" value="{{user.Email}}" disabled/>
+                    
+            </div>
+              
+            <div class="form-group">
+                <label>Contact No</label>
+                <input type="text" formControlName="ContactNo" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.ContactNo.errors }" value="{{user.ContactNo}}"/>
+                <div *ngIf="submitted && f.ContactNo.errors" class="invalid-feedback">
+                    <div *ngIf="f.ContactNo.errors.required">Contact No is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>City</label>
+                <select class="form-control"  formControlName="City"
+                    [ngClass]="{ 'is-invalid': submitted && f.City.errors }">
+                    <option value="">Choose your city</option>
+                    <option *ngFor="let City of City" [ngValue]="City">{{City}}</option>
+                </select>
+
+                <div *ngIf="submitted && f.City.errors" class="invalid-feedback">
+                    <div *ngIf="f.City.errors.required">City is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <textarea formControlName="Address" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.Address.errors }" value="{{user.Address}}"></textarea>
+
+                <div *ngIf="submitted && f.Address.errors" class="invalid-feedback">
+                    <div *ngIf="f.Address.errors.required">Address is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="site">Site URL</label>
+                <input type="text" formControlName="site" class="form-control" pattern="https?://.+"
+                    [ngClass]="{ 'is-invalid': submitted && f.site.errors }" value="{{user.Site}}"/>
+                <div *ngIf="submitted && f.site.errors" class="invalid-feedback">
+                    <div *ngIf="f.site.errors.required">Site url is required</div>
+                    <div *ngIf="f.site.errors.pattern">Must be a valid site URL</div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label for="site">Date Of birth </label>
+                <input type="date" formControlName="dob" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.dob.errors }" value="{{user.Dob | date:'MM/dd/yyyy'}}"/>
+                <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                    <div *ngIf="f.dob.errors.required">Date of birth is required</div>
+
+                </div>
+
+            </div>
+            <div class="form-group ">
+                <label>Gender</label>
+                <div class="row col-md-12 form-group-border">
+
+                    <div class="col-md-2" style="display:contents;">
+                        <label><input type="radio" formControlName="Gender" 
+                                value="Male"/> Male</label>
+                    </div>
+                    <div class="col-md-2" style="display:contents;">
+                        <label><input type="radio" formControlName="Gender" value="Female" required/> FeMale</label>
+                    </div>
+                </div>
+                
+
+
+            </div>
+            <div class="form-group">
+                <label>Skills</label><br>
+                <div class="form-group-border">
+                    <label class="mr-4"><input type="checkbox"  formControlName="skills" value="Asp.Net" (change)="GetSkill($event)" > Asp.Net</label>
+                    <label class="mr-4"><input type="checkbox"  formControlName="skills" value="PHP"  (change)="GetSkill($event)" > PHP</label>
+                    <label class="mr-4"><input type="checkbox" formControlName="skills" value="SQL"  (change)="GetSkill($event)" >SQL</label>
+                    <label class="mr-4"><input type="checkbox" formControlName="skills" value="Java"  (change)="GetSkill($event)" > Java</label>
+                    <label class="mr-4"><input type="checkbox"  formControlName="skills" value="Oracle"  (change)="GetSkill($event)"> Oracle</label>
+                </div>
+               
+
+            </div>
+            <div class="form-group">
+                <label>Choose profile picture</label><br>
+                <input #file type="file" accept='image/*' (change)="preview(file.files)"
+                    [formControlName]="profile" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.profile.errors }"
+                    style="padding-bottom: 35px;" />
+                    <div *ngIf="submitted && f.profile.errors" class="invalid-feedback">
+                            <div *ngIf="f.profile.errors.required">Profile picture is required</div>
+                        </div>
+                <span style="color:red;font-size: 80%" *ngIf="image_message">{{image_message}}</span>
+                <img  src="{{user.Profile}}" height="200" width="200" *ngIf="imgURL2">
+                
+                <img  [src]="imgURL" height="200" width="200" *ngIf="imgURL">
+            </div>
+           
+     
+                 
+               
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Update</button>
+          <button type="button" class="btn btn-danger" (click)="Cancel()" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+                
+      </div>
+  
+    </div>
+  </div>

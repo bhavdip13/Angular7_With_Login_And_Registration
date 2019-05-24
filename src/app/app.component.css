@@ -1,0 +1,15 @@
+a {
+    color: #fff;
+    text-decoration: none;
+}
+a:hover {
+    color:lightskyblue;
+    text-decoration: underline;
+}
+li{
+    padding-left: 10px;
+}
+.clslogout{
+    color :white !important;
+    cursor: pointer;
+}

@@ -1,0 +1,140 @@
+<div class="container" style="padding-top:40px;">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card mx-4">
+                <div class="card-body p-4">
+                    <form [formGroup]="UserForm" (ngSubmit)="onFormSubmit(UserForm.value)">
+                        <h1 style="text-align:center">Register</h1>
+                        
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="text" formControlName="Email" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" />
+                                <small class="invalid-feedback" *ngIf="UserForm.get('Email').hasError('EmailTaken')">{{f.Email.value}} is already registered with us, please use diffrent.</small>
+                            <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+                                <div *ngIf="f.Email.errors.required">Email is required</div>
+                                <div *ngIf="f.Email.errors.email">Email must be a valid email address</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" formControlName="Password" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" />
+                            <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                                <div *ngIf="f.Password.errors.required">Password is required</div>
+                                <div *ngIf="f.Password.errors.minlength">Password must be at least 6 characters</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" formControlName="confirmPassword" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+                            <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                                <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                                <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Contact No</label>
+                            <input type="text" formControlName="ContactNo" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.ContactNo.errors }" />
+                            <div *ngIf="submitted && f.ContactNo.errors" class="invalid-feedback">
+                                <div *ngIf="f.ContactNo.errors.required">Contact No is required</div>
+                                <div *ngIf="f.ContactNo.errors.minlength">ContactNo must be at least 10 to 12 characters</div>
+                                <div *ngIf="f.ContactNo.errors.maxlength">ContactNo must be at least 10 to 12 characters</div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <!-- (change)="changeCity($event)" -->
+                            <select class="form-control"  formControlName="City"
+                                [ngClass]="{ 'is-invalid': submitted && f.City.errors }">
+                                <option value="">Choose your city</option>
+                                <option *ngFor="let City of City" [ngValue]="City">{{City}}</option>
+                            </select>
+
+                            <div *ngIf="submitted && f.City.errors" class="invalid-feedback">
+                                <div *ngIf="f.City.errors.required">City is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea formControlName="Address" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.Address.errors }"></textarea>
+
+                            <div *ngIf="submitted && f.Address.errors" class="invalid-feedback">
+                                <div *ngIf="f.Address.errors.required">Address is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="site">Site URL</label>
+                            <input type="text" formControlName="site" class="form-control" pattern="https?://.+"
+                                [ngClass]="{ 'is-invalid': submitted && f.site.errors }" />
+                            <div *ngIf="submitted && f.site.errors" class="invalid-feedback">
+                                <div *ngIf="f.site.errors.required">Site url is required</div>
+                                <div *ngIf="f.site.errors.pattern">Must be a valid site URL</div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="site">Date Of birth</label>
+                            <input type="date" formControlName="dob" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.dob.errors }" />
+                            <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                                <div *ngIf="f.dob.errors.required">Date of birth is required</div>
+
+                            </div>
+
+                        </div>
+                        <div class="form-group ">
+                            <label>Gender</label>
+                            <div class="row col-md-12 form-group-border">
+
+                                <div class="col-md-2" style="display:contents;">
+                                    <label><input type="radio" formControlName="Gender" [(ngModel)]="radioSelected"
+                                            value="Male"/> Male</label>
+                                </div>
+                                <div class="col-md-2" style="display:contents;">
+                                    <label><input type="radio" formControlName="Gender" value="Female" required/> FeMale</label>
+                                </div>
+                            </div>
+                            
+
+
+                        </div>
+                        <div class="form-group">
+                            <label>Skills</label><br>
+                            <div class="form-group-border">
+                                <label class="mr-4"><input type="checkbox"  formControlName="skills" value="Asp.Net" (change)="GetSkill($event)"> Asp.Net</label>
+                                <label class="mr-4"><input type="checkbox"  formControlName="skills" value="PHP"  (change)="GetSkill($event)"> PHP</label>
+                                <label class="mr-4"><input type="checkbox" formControlName="skills" value="SQL"  (change)="GetSkill($event)">SQL</label>
+                                <label class="mr-4"><input type="checkbox" formControlName="skills" value="Java"  (change)="GetSkill($event)"> Java</label>
+                                <label class="mr-4"><input type="checkbox"  formControlName="skills" value="Oracle"  (change)="GetSkill($event)"> Oracle</label>
+                            </div>
+                           
+
+                        </div>
+                        <div class="form-group">
+                            <label>Choose profile picture</label><br>
+                            <input #file type="file" accept='image/*' (change)="preview(file.files)"
+                                [formControlName]="profile" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.profile.errors }"
+                                style="padding-bottom: 35px;" />
+                                <div *ngIf="submitted && f.profile.errors" class="invalid-feedback">
+                                        <div *ngIf="f.profile.errors.required">Profile picture is required</div>
+                                    </div>
+                            <span style="color:red;font-size: 80%" *ngIf="image_message">{{image_message}}</span>
+                           
+                            <img  [src]="imgURL" height="200" *ngIf="imgURL">
+                        </div>
+                        <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+                        <button type="submit" class="btn btn-block btn-success">Create account</button>
+                  <p>Already Registred? <a [routerLink]="['/login']" >click here to login</a></p>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

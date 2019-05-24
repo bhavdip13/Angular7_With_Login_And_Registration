@@ -1,0 +1,84 @@
+@import 'https://unpkg.com/@progress/kendo-theme-default@latest/dist/all.css';
+@import 'https://cdn.jsdelivr.net/npm/@progress/kendo-theme-default@dev/dist/all.css';
+
+
+.img-responsive
+{
+  width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+
+}
+
+.k-grid-pdf,.k-grid-excel
+{
+   
+    padding: 10px 25px;
+    font-size: 16px;
+    
+}
+.k-button
+{
+    border-color: rgba(0,0,0,0.08);
+    color: #ffffff !important;
+    background-color:forestgreen !important;
+    background-image: unset !important;
+    }
+
+ /* style for the export to pdf functionality in the kendo grid */
+@font-face {
+    font-family: "DejaVu Sans";
+    src: url("https://kendo.cdn.telerik.com/2018.2.620/styles/fonts/DejaVu/DejaVuSans.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "DejaVu Sans";
+    font-weight: bold;
+    src: url("https://kendo.cdn.telerik.com/2018.2.620/styles/fonts/DejaVu/DejaVuSans-Bold.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "DejaVu Sans";
+    font-style: italic;
+    src: url("https://kendo.cdn.telerik.com/2018.2.620/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "DejaVu Sans";
+    font-weight: bold;
+    font-style: italic;
+    src: url("https://kendo.cdn.telerik.com/2018.2.620/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf") format("truetype");
+  }
+  
+  .k-grid {
+       font-family: "DejaVu Sans", "Arial", sans-serif;
+  }
+  .page-template {
+    font-family: "DejaVu Sans", "Arial", sans-serif;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  
+  .page-template .header {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    right: 30px;
+    border-bottom: 1px solid #888;
+    color: #888;
+  }
+  
+  .page-template .footer {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    border-top: 1px solid #888;
+    text-align: center;
+    color: #888;
+  }
