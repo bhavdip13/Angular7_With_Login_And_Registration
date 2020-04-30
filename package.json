@@ -38,7 +38,7 @@
     "@progress/kendo-theme-default": "latest",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ngx-toast-notifications": "^1.0.1",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.0.0",
